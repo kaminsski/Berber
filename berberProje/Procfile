@@ -1,0 +1,1 @@
+web: gunicorn berberProje.wsgi --log-file -

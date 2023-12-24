@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Homepage{% endblock title %}
+{% block content %}
+{% load exp_tags %}
+<div class="text-center mt-4 mb-3">Lütfen randevu tarihini kontrol edin</div>
+<h6 class="text-center mt-4 mb-3">{{ randevuSayi|plus_days }} {{randevuSaat}}</h6>
+<div class="randevuCon d-flex justify-content-center">
+   
+<div class="col-6 col-lg-2">
+<form class="d-flex flex-column " action="{% url 'randevu' randevuSayi randevuSaat %}" method="POST" >
+{% csrf_token %}
+
+
+<input  style="display:none" type="text" name="müsteri" id="müsteri" value={{request.user}} readonly>
+{% if randevuSaat|slice:"-2:"|slugify == "00"|slugify %}
+<input style="display:none" class="mb-3" type="datetime-local" name="tarih" id="tarih" value="{{xtam}}" readonly>
+
+{% else %}
+<input style="display:none" class="mb-3" type="datetime-local" name="tarih" id="tarih" value="{{xyarim}}" readonly> 
+
+{% endif %}
+{{form}}
+<button class="mt-3 mb-5 btn btn-success" type="submit">Onay</button>
+</form>
+
+</div>
+</div>
+
+
+<script>
+    var isSuperuser = {{ request.user.is_superuser|yesno:"true,false" }};
+
+    // Süper kullanıcı kontrolü
+
+// id_description elementini seçin
+var descriptionField = document.getElementById("id_description");
+
+// Eğer kullanıcı süper kullanıcı ise id_description alanını göster, değilse gizle
+if (isSuperuser) {
+    descriptionField.style.display = "block"; // veya "inline" veya "inline-block" gibi görünürlük stillerini ayarlayabilirsiniz
+} else {
+    descriptionField.style.display = "none";
+}
+
+</script>
+
+{% endblock content %}

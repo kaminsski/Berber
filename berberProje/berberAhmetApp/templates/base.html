@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static "logo.png" %}" type="image/x-icon">
+    <title>
+        {% block title %}{% endblock title %}
+        </title>
+        <link rel="stylesheet" href={% static "my.css" %}>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body class="bg-light">
+    {% include "components/_nav.html" %}
+    {% for message in messages %}
+
+    <div class="alert alert-{% if message.tags == "error" %}danger {% else %}info{% endif %} text-center" role="alert">
+    {{message}}
+    </div>
+    {% endfor %}
+    {% block content %}
+    {% endblock content %}
+    {% include "components/_footer.html" %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <script src="https://kit.fontawesome.com/f8a5a369a4.js" crossorigin="anonymous"></script>
+    <script>
+        var flash = document.querySelector(".alert")
+        console.log(flash)
+        setTimeout(function(){ 
+          flash.style.display = "none"; 
+       }, 3000);
+      
+      </script>
+</body>
+</html>
+

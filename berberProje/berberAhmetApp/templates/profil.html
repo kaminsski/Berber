@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Profil{% endblock title %}
+{% block content %}
+
+<div class=" mt-5">
+    <div class="row justify-content-center g-0">
+
+        <div class="col-md-6">
+            <div class="card m-3 shadow">
+                <div class="card-header bg-warning">
+                   <h2> Profil Bilgileri</h2>
+                </div>
+                <div class="card-body fs-4">
+                    <h6 class="card-title mt-4"> <span class="fs-6 fw-bolder">Kullanıcı Adı:</span> <i class="text-muted fs-7">{{user.username}}</i> </h6>
+                    <h6 class="card-text mt-4"> <span class="fs-6 fw-bolder">İsim-Soyisim:</span> <i class="text-muted fs-7">{{user.first_name}} {{user.last_name}}</i>  </h6>
+                    <h6 class="card-text mt-4"> <span class="fs-6 fw-bolder"> Telefon:</span><i class="text-muted fs-7">{{user.tel}}</i> </h6>
+                   <button type="button" class="btn btn-primary mt-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Düzenle
+                      </button>
+                
+                
+                
+                <!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Profil Güncelleme</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form class="d-flex flex-column" method="post" action="{% url 'profil' user.id %}">
+                {% csrf_token %}
+          {{form}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+          <button type="submit" class="btn btn-primary">Kaydet</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+                
+                
+                
+                
+                
+                
+                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class=" mt-5">
+    <div class="row justify-content-center g-0 mb-3">
+
+        <div class="col-md-3 mb-3">
+            <h3 class="text-center mt-3">Randevular</h3>
+            <hr>
+            {% for randevu in randevular %}
+            <div class="randevuObject text-start bg-white p-3 shadow m-3">
+            <h6 class="bg-warning p-2">Randevu tarihi</h6>
+            <p> {{randevu.Tarih}} </p>
+            <h6 class="bg-warning p-2">Hizmet</h6>
+            <p> {{randevu.hizmet}} </p>
+            <a href="{% url 'iptalRandevu' randevu.id %}" class="btn btn-danger">İptal et</a>
+            </div>
+            {% empty %}
+            <div class="bg-info mb-5 p-3 rounded-3 m-4">
+                Şuanda randevunuz yok
+              </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+  
+{% endblock content %}

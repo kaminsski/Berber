@@ -1,0 +1,61 @@
+{% load static %}
+
+
+<nav class="navbar t" style="background-color: white;">
+    <div class="container-fluid row justify-between w-100">
+     
+      
+        <div class="col-7 col-sm-6 col-md-5 col-lg-2">
+        <a class="navbar-brand " href="{% url 'home' %}"><img src="{% static 'Adsız.png' %}" class="w-100" alt=""></a>
+      </div>
+        
+        <div class="col-1  col-sm-1  col-md-1 col-lg-1 mx-4 ">
+        <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon "></span>
+        </button>
+      </div>
+      
+
+
+
+        <div class="collapse navbar-collapse  p-2 mt-2" id="navbarText"  style="background-color: white;">
+          <div class="div w-100">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0  ">
+            <li class="nav-item">
+              <a class="nav-link active font-italic" aria-current="page" href="{% url 'home' %}"><i class="fa-solid fa-house mx-3" style="color: #000000;"></i>Anasayfa</a>
+            </li>
+            <hr>
+            {% if request.user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link active font-weight-bold" href="{% url 'profil' request.user.id%}"><i class="fa-solid fa-user mx-3" style="color: #000000;"></i>Profil</a>
+           
+            </li>
+            <hr>
+            {% if request.user.is_superuser %}
+            <li class="nav-item">
+              <a class="nav-link  active font-weight-bold" href="{% url 'allrandevu' %}"><i class="fa-solid fa-calendar-check mx-3" style="color: #000000;"></i>Randevular</a>
+            </li>
+            <hr>          
+            <li class="nav-item">
+              <a class="nav-link  active font-weight-bold" href="{% url 'tatil' %}"><i class="fa-solid fa-calendar-check mx-3" style="color: #000000;"></i>Tatil oluştur</a>
+            </li>
+            <hr>          
+            {% endif %}
+            <li class="nav-item">
+              <a class="nav-link active font-weight-bold" href="{% url 'log_out' %}"><i class="fa-solid fa-right-from-bracket mx-3" style="color: #000000;"></i>Çıkış</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link active font-weight-bold" href="{% url 'register' %}"><i class="fa-solid fa-user-plus mx-3" style="color: #000000;"></i>Kayıt Ol</a>
+            </li>
+            <hr>
+            <li class="nav-item">
+              <a class="nav-link active font-weight-bold" href="{% url 'login' %}"><i class="fa-solid fa-right-to-bracket mx-3" style="color: #000000;"></i>Giriş Yap</a>
+            </li>
+            {% endif %}
+         
+          </ul>
+        </div>
+        </div>
+      </div>
+  </nav>

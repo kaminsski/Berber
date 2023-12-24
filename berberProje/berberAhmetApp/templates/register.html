@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock title %}
+{% block content %}
+<h2 class="registerTitle text-center mt-3">Kayıt ol</h2>
+<h4 class="registerTitle text-center">Hesabın var mı?<a href={% url 'login' %}> Giriş yap</a></h4>
+<div class="registerAll row justify-content-center g-0">
+<div class="registerContainer col-8 col-lg-3 d-flex justify-content-center">
+<form class="d-flex flex-column justify-content-center w-100 mx-auto my-3" action="{% url 'register' %}" method="POST" enctype = "multipart/form-data" autocomplete="off">
+{% csrf_token %}
+{{form}}
+
+<button type="submit" class="btn btn-success mt-3 mb-5 m-auto">Kaydı Tamamla</button>
+</form>
+</div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var telInput = document.getElementById('id_tel'); // Input elementini id'sine göre seçiyoruz
+        telInput.placeholder = '050...'; // Placeholder değerini belirliyoruz
+    });
+</script>
+{% endblock content %}
+

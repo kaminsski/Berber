@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock title %}
+{% block content %}
+{% for message in messages %}
+
+
+{% endfor %}
+<h2 class="mt-2 loginTitle text-center mt-5">Giriş Yap</h2> 
+<h5 class="registerTitle text-center p-2">Kayıt oldunuz mu? <a href={% url 'register' %}> Kayıt ol</a></h5>
+    <div class="registerAll row g-0" style="margin-bottom:260px;">
+<form class="d-flex flex-column justify-content-center col-8 col-lg-2 mx-auto my-5" action="{% url 'login' %}" method="POST" autocomplete="off">
+    {% csrf_token %}
+
+    <div class="loginContainer">
+    <div>
+        <input class="w-100" type="text" name="username" placeholder="Kullanıcı Adı">
+    </div>
+    <div>
+        <input  class="w-100 mt-3" type="password" name="password" placeholder="Şifre">
+    </div>
+
+    <button type="submit" class="btn btn-success  mt-3 mb-5 m-auto">Giriş Yap</button>
+</form>
+</div>
+</div>
+
+  
+{% endblock content %}

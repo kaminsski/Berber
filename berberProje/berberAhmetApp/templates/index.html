@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Homepage{% endblock title %}
+{% block content %}
+{% load exp_tags %}
+
+
+{% comment %} 
+
+Carousel Start
+{% endcomment %}
+<div class="carouselContainer row justify-content-center bg-dark g-0">
+  <div id="carouselExampleIndicators" class="carousel slide bg-dark col-lg-4">
+      <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      </div>
+      <div class="carousel-inner">
+          <div class="carousel-item active text-center">
+              <img src="{% static '2.jpeg' %}" class="d-block mx-auto w-100" alt="Slide 1">
+          </div>
+          <div class="carousel-item text-center">
+              <img src="{% static '3.jpeg' %}" class="d-block mx-auto w-100" alt="Slide 2">
+          </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+      </button>
+  </div>
+</div>
+
+
+
+{% comment %} 
+Carousel End
+{% endcomment %}
+
+
+<h2 class="text-center mt-5">Randevu al</h2>
+<hr>
+<div class="mx-2 mt-5 d-flex justify-content-center flex-wrap">
+  {% if request.user.is_authenticated %}
+{% for hour in hours %}
+{% if forloop.first %} 
+<div class="btn-group m-1 mx-5 mx-sm-0">
+  <p class="btn btn-warning h-100 text-center pt-3">Bugün</p>
+  <button style="width: 130px; font-size:15px;"  type="button " class="btn btn-secondary dropdown-toggle"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   {{hour.rs_sayi.counts|to_int|plus_days|date:"d F D"}}
+  </button>
+  <div class="dropdown-menu custom-dropdown-menu">
+      {% for saat in hour.rs_saat.all %}
+     
+      <div class="dropCon d-inline ">
+    <a class="dropdown" href="{% url 'randevu' hour.rs_sayi.counts saat %}">
+      <button style="width:65px;" id="{{ hour.rs_sayi.counts|to_int|plus_days }} {{ saat }}" type="button" class="btn btn-success m-1">   {{saat}} </button></a>
+    </div> {% endfor %}
+  </div>
+</div>
+{% else %}
+<div class=" btn-group m-1">
+    <button style="width: 130px; font-size:15px;"  type="button " class="btn btn-secondary dropdown-toggle py-3 pl-0"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {{hour.rs_sayi.counts|to_int|plus_days|date:"d F D"}}
+    </button>
+    <div class="dropdown-menu custom-dropdown-menu" style="border-width: 2px; border-style: solid; border-color:black">
+        {% for saat in hour.rs_saat.all %}
+       
+        <div class="dropCon d-inline ">
+      <a class="dropdown" href="{% url 'randevu' hour.rs_sayi.counts saat %}">
+        <button style="width:65px;" id="{{ hour.rs_sayi.counts|to_int|plus_days }} {{ saat }}" type="button" class="btn btn-success m-1">   {{saat}} </button></a>
+      </div> {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+  {% endfor %}
+  {% else %}
+  <div class="login d-flex justify-content-center flex-wrap align-items-center gap-2">
+  <h4>Randevu almak için giriş yap veya kayıt ol</h4>
+  <div>
+  <a href="{% url 'login' %}"> <button type="button" class="btn btn-info m-1"> Giriş yap  </button></a>
+  <a href="{% url 'register' %}"> <button type="button" class="btn btn-danger m-1"> Kayıt ol  </button></a>
+</div>
+  {% endif %}</div>
+</div>
+
+{% comment %} 
+Services Start
+{% endcomment %}
+
+<div class="cardContainer container">
+    <div class="row mt-5">
+      <h2 class="text-center">Hizmetler</h2>
+      <hr>
+      {% for hizmet in hizmetler %}
+        <div class="col-md-4 d-flex align-items-stretch mb-3">
+            <div class="card" >
+                <img src="{{hizmet.avatar.url}}" class="h-75" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title text-center"> {{hizmet.hizmet}} </h5>
+                  <p class="card-text">  </p>
+                  
+                </div>
+              </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% comment %} 
+Services End
+{% endcomment %}
+
+
+<script>
+
+  var djangoData= {{tatilveri|safe}};
+  var months = [
+    "Ocak",
+    "Şubat",
+    "Mart",
+    "Nisan",
+    "Mayıs",
+    "Haziran",
+    "Temmuz",
+    "Ağustos",
+    "Eylül",
+    "Ekim",
+    "Kasım",
+    "Aralık"
+];
+
+  var formattedDates = djangoData.map(function(item) {
+    var date = new Date(item.fields.tatil);
+    var day = date.getDate();
+    var month = date.getMonth() ;
+    var monthName = months[month] // Ayın sayısal değeri (1-12)
+    var x =day + " " + monthName 
+    return day + " " + monthName;
+});
+
+// Tüm btn-info düğmelerini seç
+var buttons = document.querySelectorAll('.btn-secondary');
+
+// Tarihle eşleşen düğmeleri devre dışı bırak
+buttons.forEach(function(button) {
+    var buttonText = button.innerText.trim();
+    if (formattedDates.includes(buttonText.slice(0,-4))) {
+        button.disabled = true;
+        button.innerText = "Tatil"
+        button.style.backgroundColor = "gray"
+    }
+});
+
+
+
+
+
+
+
+
+
+  
+
+  // Önceden verilen randevu tarihleri
+  var randevularData = {{ randevular|safe }};
+  var randevuTarihleri = [];
+  
+  for (var i = 0; i < randevularData.length; i++) {
+      // Django'dan gelen tarihleri UTC olarak kabul edin ve JavaScript Date nesnesine dönüştürün
+      var utcTarih = new Date(randevularData[i].fields.Tarih);
+      
+      // JavaScript'teki tarihi yerel saat dilimine dönüştürün
+      // UTC tarihini yerel saat dilimine dönüştürmek için getTimezoneOffset'i kullanın
+      var yerelSaatDilimiOfset = new Date().getTimezoneOffset() / 60; // saat cinsinden ofset
+      var yerelTarih = new Date(utcTarih.getTime());
+      
+      // Tarihi belirtilen formata dönüştürün
+      var formatliTarih = yerelTarih.toLocaleString("tr-TR", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric"
+      });
+      
+      randevuTarihleri.push(formatliTarih);
+  }
+  
+  
+  // Sayfadaki btn-danger elementlerini seç
+  var buttons = document.querySelectorAll('.btn.btn-success');
+  
+  // Tüm düğmeleri kontrol et
+  buttons.forEach(function(button) {
+      // Düğmenin metni
+      var buttonText = button.id.trim();
+      // Düğmenin tarihiyle eşleşen randevu varsa rengini değiştir ve tıklamayı engelle
+      if (randevuTarihleri.includes(buttonText)) {
+          button.style.backgroundColor = 'red'; // Gri arka plan rengi
+          button.style.cursor = 'not-allowed'; // İşaretçi türünü değiştirerek butona tıklanamaz görünümü sağla
+          button.addEventListener('click', function(event) {
+              event.preventDefault(); // Butona tıklamayı engelle
+          });
+      }
+  });
+  
+
+
+
+
+
+
+
+
+  var gunData = {{ tatilGunu|safe }};
+  var haftaninGunleri = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+  var gün = haftaninGunleri[((gunData[0].fields.gün)-1)];  // JSON dizisi içindeki ilk öğe
+  
+// btn-info sınıfına sahip tüm öğeleri seçin
+const btnInfoElements = document.querySelectorAll('.btn-secondary');
+
+// Her bir öğenin metnini kontrol edin ve son üç karakteri yazdırın
+btnInfoElements.forEach(function(btnInfoElement) {
+  const metin = btnInfoElement.innerText;
+  const sonUcKarakter = metin.slice(-4,-1); // Metinin son üç karakterini alın
+  if (sonUcKarakter === gün){
+    btnInfoElement.style.backgroundColor = "gray"
+    btnInfoElement.innerText="Tatil"
+    btnInfoElement.disabled = true
+  }
+});
+
+    </script>
+    
+{% endblock content %}
