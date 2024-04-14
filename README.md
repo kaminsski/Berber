@@ -23,6 +23,8 @@ https://88462947-8274-4432-9d9c-e62a486d331f-00-2jrce75qsylzo.sisko.replit.dev/
 * Sqlite3
 * Twilio
 * Virtual Environment
+* Python
+* Django
   
   
 
