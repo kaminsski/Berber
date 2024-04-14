@@ -19,7 +19,6 @@ https://88462947-8274-4432-9d9c-e62a486d331f-00-2jrce75qsylzo.sisko.replit.dev/
 * CSS3
 * JavaScript (ES6)
 * GitHub
-* React
 * Bootstrap
 * Sqlite3
 * Twilio
